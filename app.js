@@ -38,7 +38,6 @@ const getImages = (query) => {
 // selected images 
 let sliders = [];
 
-// step - 3
 // show images 
 const showImages = (images) => {
   imagesArea.style.display = 'block';
