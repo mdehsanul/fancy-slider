@@ -1,3 +1,12 @@
+// adding searchbox keyboard 'Enter' key
+var searchButton = document.getElementById("search-btn");
+var searchBox = document.getElementById("search");
+searchBox.addEventListener("keypress", function(event) {
+    if (event.key == 'Enter'){
+        searchButton.click();
+    }
+});
+
 const imagesArea = document.querySelector('.images');
 const gallery = document.querySelector('.gallery');
 const galleryHeader = document.querySelector('.gallery-header');
@@ -5,21 +14,17 @@ const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
 
-searchBtn.addEventListener('click', function () {
-  document.querySelector('.main').style.display = 'none';
-  clearInterval(timer);
-  const search = document.getElementById('search').value;
-  getImages(search);
-  sliders.length = 0;
-  document.getElementById('search').value = '';
-})
+// adding spinner
+const toggleSpinner = () => {
+  const spinner = document.getElementById('loading-spinner');
+  spinner.classList.toggle('d-none');
+}
 
 // If this key doesn't work
 // Find the name in the url and go to their website
 // to create your own api key
 const KEY = '18256341-8bf62033dc16a3e95c9e79718';
 
-// step - 2
 const getImages = (query) => {
   toggleSpinner();
   fetch(`https://pixabay.com/api/?key=${KEY}&q=${query}&image_type=photo&pretty=true`)
@@ -49,6 +54,7 @@ const showImages = (images) => {
   })
 }
 
+let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
   element.classList.toggle('added');
@@ -60,10 +66,6 @@ const selectItem = (event, img) => {
   }
 
 }
-
-sliderBtn.addEventListener('click', function () {
-  createSlider();
-})
 
 var timer
 const createSlider = () => {
@@ -107,6 +109,11 @@ const createSlider = () => {
   document.getElementById('duration').value = '';
 }
 
+// change slider index 
+const changeItem = index => {
+  changeSlide(slideIndex += index);
+}
+
 // change slide item
 const changeSlide = (index) => {
   const items = document.querySelectorAll('.slider-item');
@@ -127,27 +134,18 @@ const changeSlide = (index) => {
   items[index].style.display = "block"
 }
 
-let slideIndex = 0;
+searchBtn.addEventListener('click', function () {
+  document.querySelector('.main').style.display = 'none';
+  clearInterval(timer);
+  const search = document.getElementById('search').value;
+  getImages(search);
+  sliders.length = 0;
+  document.getElementById('search').value = '';
+})
 
-// change slider index 
-const changeItem = index => {
-  changeSlide(slideIndex += index);
-}
-
-// adding searchbox keyboard 'Enter' key
-var searchButton = document.getElementById("search-btn");
-var searchBox = document.getElementById("search");
-searchBox.addEventListener("keypress", function(event) {
-    if (event.key == 'Enter'){
-        searchButton.click();
-    }
-});
-
-// adding spinner
-const toggleSpinner = () => {
-  const spinner = document.getElementById('loading-spinner');
-  spinner.classList.toggle('d-none');
-}
+sliderBtn.addEventListener('click', function () {
+  createSlider();
+})
 
 // removing slider and previous page selected images
 document.getElementById('previous-page').addEventListener('click', function(){
